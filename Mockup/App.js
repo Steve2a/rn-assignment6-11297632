@@ -18,12 +18,12 @@ export default function App() {
       component={HomeScreen}
       
       />
-
       <Stack.Screen 
       name="Cart"
       component={CartScreen}
       
       />
+        
     </Stack.Navigator>
     </NavigationContainer>
   );

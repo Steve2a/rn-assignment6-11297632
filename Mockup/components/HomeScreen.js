@@ -1,11 +1,39 @@
-import { StyleSheet, Text, View, Image, ScrollView,TouchableOpacity } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View, Image, ScrollView,TouchableOpacity, Button } from 'react-native'
+import React, { useState, useEffect} from 'react'
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import HomeProfile from './HomeProfile';
 import Item from './Item';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const HomeScreen = () => {
+    const [products, setProducts] = useState([]);
+
+    useEffect(() => {
+      setProducts([
+        { id: '1', image:require('../assets/dress1.png'), name: 'Office Wear', type:'reversible angora cardigan', price:'$120' },
+        { id: '2', image:require('../assets/dress2.png'), name: 'Black', type:'reversible angora cardigan', price:'$120' },
+        { id: '3', image:require('../assets/dress3.png'), name: 'Church Wear', type:'reversible angora cardigan', price:'$120' },
+        { id: '4', image:require('../assets/dress4.png'), name: 'Laramel', type:'reversible angora cardigan', price:'$120' },
+        { id: '5', image:require('../assets/dress5.png'), name: '21WN', type:'reversible angora cardigan', price:'$120' },
+        { id: '6', image:require('../assets/dress6.png'), name: 'Lopo', type:'reversible angora cardigan', price:'$120' },
+        { id: '7', image:require('../assets/dress7.png'), name: 'lame', type:'reversible angora cardigan', price:'$120' },
+        
+    ])}, []);
+
+
+
+      const addToCart = async (product) => {
+        try {
+          const cartItems = await AsyncStorage.getItem('cart');
+          let newCart = cartItems ? JSON.parse(cartItems) : [];
+          newCart.push(product);
+          await AsyncStorage.setItem('cart', JSON.stringify(newCart));
+        } catch (error) {
+          console.error(error);
+        }
+      };
+
     return (
         <SafeAreaView>
             <ScrollView>
@@ -24,17 +52,16 @@ const HomeScreen = () => {
                             </View>
                         </View>
                         <View style={styles.Item}>
-                            <Item itemImg={require('../assets/dress1.png')} itemName={'Office Wear'} itemType={'reversible angora cardigan'} itemPrice={'$120'} />
-                            <Item itemImg={require('../assets/dress2.png')} itemName={'Black'} itemType={'reversible angora cardigan'} itemPrice={'$120'} />
-                            <Item itemImg={require('../assets/dress3.png')} itemName={'Church Wear'} itemType={'reversible angora cardigan'} itemPrice={'$120'} />
-                            <Item itemImg={require('../assets/dress4.png')} itemName={'Lamerei'} itemType={'reversible angora cardigan'} itemPrice={'$120'} />
-                            <Item itemImg={require('../assets/dress5.png')} itemName={'Lamerei'} itemType={'reversible angora cardigan'} itemPrice={'$120'} />
-                            <Item itemImg={require('../assets/dress6.png')} itemName={'Lopo'} itemType={'reversible angora cardigan'} itemPrice={'$120'} />
-                            <Item itemImg={require('../assets/dress7.png')} itemName={'21WN'} itemType={'reversible angora cardigan'} itemPrice={'$120'} />
+                            {products.map((product) => (
+                             <Item key={product.id} product={product}  itemPhoto={product.image} itemName={product.name} itemType={product.type} itemPrice={product.price} addToCart={addToCart} />
+                          ))}
                         </View>
+
                     </View>
                 </View>
             </ScrollView>
+            
+
         </SafeAreaView>
     )
 }
@@ -85,5 +112,10 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
         justifyContent: 'space-between'
 
+    },
+
+    goCart:{
+        width:20,
+        backgroundColor:'black'
     },
 })

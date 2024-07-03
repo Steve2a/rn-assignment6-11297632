@@ -1,25 +1,23 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native'
 import React from 'react'
 
-const Item = (props) => {
+const Item = ({ product, addToCart }) => {
   return (
     <View style={styles.itemContainer}>
       <View style={styles.dressContainer}>
         <View style={styles.itemImage}>
-          <Image style={styles.dressImage} source={props.itemImg} />
+          <Image style={styles.dressImage} source={product.image} />
         </View>
-        <TouchableOpacity style={styles.addButton}>
+        <TouchableOpacity style={styles.addButton} onPress={() => addToCart(product)}>
           <Image source={require('../assets/add_circle.png')} />
         </TouchableOpacity>
-        </View>
-        <Text style={styles.nameText}>{props.itemName}</Text>
-        <Text style={styles.typeText}>{props.itemType}</Text>
-        <Text style={styles.priceText}>{props.itemPrice}</Text>
-        
-      
+      </View>
+      <Text style={styles.nameText}>{product.name}</Text>
+      <Text style={styles.typeText}>{product.type}</Text>
+      <Text style={styles.priceText}>{product.price}</Text>
     </View>
-  )
-}
+  );
+};
 
 export default Item
 
@@ -35,8 +33,7 @@ const styles = StyleSheet.create({
     width: 185,
     alignItems: 'center',
     justifyContent: 'center',
-    zIndex:1
-
+    zIndex:1,
   },
 
   dressImage: {
