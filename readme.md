@@ -39,3 +39,6 @@ The application uses `AsyncStorage` to store selected items locally on the devic
 
 
 ## Screenshots
+
+![alt text](<Mockup/assets/Screenshot 2024-07-03 194400.png>) 
+![alt text](<Mockup/assets/Screenshot 2024-07-03 194440.png>)
